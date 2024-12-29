@@ -15,14 +15,14 @@ jobs:
         run: |
           joke=$(curl -s https://v2.jokeapi.dev/joke/Any?type=single | jq -r '.joke')
           echo "Joke: $joke"
-          echo "::set-output name=joke::$joke"
+          echo "joke=$joke" >> $GITHUB_ENV  # Set the joke as an environment variable
 
       - name: Check if joke contains the word 'cat'
         run: |
-          if [[ "${{ steps.joke.outputs.joke }}" == *"cat"* ]]; then
+          if [[ "$CAT_JOKE" == *"cat"* ]]; then
             echo "Found a funny joke about a cat! Proceeding..."
           else
             echo "No cat joke found. Failing the action..."
             exit 1
-          fi
-        continue-on-error: false
+        env:
+          CAT_JOKE: ${{ env.joke }}  # Use the joke stored in the environment variable
