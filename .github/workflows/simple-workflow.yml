@@ -24,4 +24,5 @@ jobs:
           else
             echo "No cat joke found. Failing the action..."
             exit 1
+          fi
         continue-on-error: false
