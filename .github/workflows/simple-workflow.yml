@@ -19,10 +19,9 @@ jobs:
 
       - name: Check if joke contains the word 'cat'
         run: |
-          if [[ "$CAT_JOKE" == *"cat"* ]]; then
-            echo "Found a funny joke about a cat! Proceeding..."
+          if echo "${{ steps.joke.outputs.joke }}" | grep -qi "cat"; then
+            echo "Found the word 'cat' in the joke! Proceeding..."
           else
-            echo "No cat joke found. Failing the action..."
+            echo "No 'cat' found in the joke. Failing the action..."
             exit 1
-        env:
-          CAT_JOKE: ${{ env.joke }}  # Use the joke stored in the environment variable
+        continue-on-error: false
